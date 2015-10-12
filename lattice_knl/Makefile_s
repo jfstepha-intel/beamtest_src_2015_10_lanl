@@ -42,3 +42,7 @@ $(BASE)_noprint.out: $(BASE)_noprint.o
 
 $(BASE)_serprint.o: $(BASE).S
 	$(CC) $(BASE).S -o $(BASE)_serprint.o -DSERPRINT -nostdlib -nostartfiles -DINNERLOOPS=5
+
+clean:
+	rm -f lattice*.o
+	rm -f lattice*.out

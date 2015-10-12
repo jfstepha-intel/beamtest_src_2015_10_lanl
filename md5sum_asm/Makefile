@@ -42,3 +42,7 @@ $(BASE)_noprint.o: $(BASE).S
 
 $(BASE)_serprint.o: $(BASE).S
 	$(CC) $(BASE).S -o $(BASE)_serprint.o -DSERPRINT -DNODELAY 
+
+clean:
+	rm -f md5*.o
+	rm -f *.out
