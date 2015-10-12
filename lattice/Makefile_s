@@ -1,0 +1,48 @@
+# make sure to set up compiler ars with
+#source ~/bin/intel/bin/compilervars.sh intel64
+# or
+#source /opt/intel/bin/compilervars.sh intel64
+
+# Lattice origins:
+#   Started with lattice_64bit.c
+#   Used the Makefile_c to make the lattice_64bit_chomp.s
+#   Copied the lattice_64bit_chomp.s to lattice_64bit_hacked.s
+#   Hacked lattice_64bit_hacked to remove memory accesses
+#   Use this makefile to make the binary and .dis files
+
+
+
+CC=icc
+BASE=lattice_64bit_hacked
+
+all: $(BASE) $(BASE).dis $(BASE)_noprint.out $(BASE)_serprint.o
+
+
+$(BASE).long_dis: $(BASE).l
+	objdump -D $< > $@
+
+$(BASE).l: $(BASE).o
+	ld -Ttext  0x6000 --section-start .interp=0x01000 $(BASE).o -o $(BASE).l -emain
+
+$(BASE).o: $(BASE).S
+	$(CC) $(BASE).S -o $(BASE).o -DBINPRINT
+
+$(BASE)_noprint.o: $(BASE).S
+	$(CC) $(BASE).S -o $(BASE)_noprint.o -DNOPRINT -DNODELAY -DOUTERLOOPS=100 -DBIOSEXIT -DINNERLOOPS=1000 -nostartfiles
+    
+$(BASE): $(BASE).S
+	$(CC) $(BASE).S -o $(BASE) -DBIOSPRINT
+
+# extract only the main section
+$(BASE).dis: $(BASE).long_dis
+	awk 'BEGIN {v=0}; /<main>/ {v=1} ; /__libc_csu_fini/ {v=0} ; v==1 {print}' < $(BASE).long_dis > $(BASE).dis
+
+$(BASE)_noprint.out: $(BASE)_noprint.o
+	ld -N -Ttext 0 -melf_x86_64 crt1_fish.64.o $(BASE)_noprint.o -o $(BASE)_noprint.out
+
+$(BASE)_serprint.o: $(BASE).S
+	$(CC) $(BASE).S -o $(BASE)_serprint.o -DSERPRINT -nostdlib -nostartfiles -DINNERLOOPS=5
+
+clean:
+	rm -f lattice*.o
+	rm -f lattice*.out
