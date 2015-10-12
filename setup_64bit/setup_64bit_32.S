@@ -1,0 +1,635 @@
+
+# This is the section used before switching over to 64 bit
+    .text
+   .global main
+   .global vacant
+
+.section text
+
+
+placeholder_main:
+    # this was the old entry
+    nop
+    nop
+
+
+
+
+  # PDPTE:
+  # 0     : Present  (1)
+  # 2:1   : reserved (0)
+  # 3     : PWT: Page-level write through (0)
+
+  # 4     : PCD: Page-level cache disable (0)
+  # 8:5   : reserved (0)
+  # 11:0  : ignored
+  # X:12  : Physical address of page directory
+  
+  .org 0x01000
+ pagedir_segbegin:
+ # this strangee structure has the PDPT pointing to 
+ # the same address ad the PD,
+ # which points to the same address as the PT.
+ # but it works, and doesn't use much space.
+ # The end result is that the page table is
+ # in physical addresses 0xfe081000 to 0xfe081fff
+ # and virtual address 0 maps to 0xfe081000
+ # 
+ # the first usable address virtual 0x2000, which
+ # is physical 0xfe082000
+ # I do not know why the more logical way would not work.
+ 
+  .quad 0x0000000FE081001 # PDPT[0] and  
+  .quad 0x0000000FE081001
+  .quad 0x0000000FE081003
+  .quad 0x0000000FE081003
+  .quad 0x0000000FE084003
+  .quad 0x0000000FE085003
+  .quad 0x0000000FE086003
+  .quad 0x0000000FE087003
+  .quad 0x0000000FE088003
+  .quad 0x0000000FE089003
+  .quad 0x0000000FE08a003
+  .quad 0x0000000FE08b003
+  .quad 0x0000000FE08c003
+  .quad 0x0000000FE08d003
+  .quad 0x0000000FE08e003
+  .quad 0x0000000FE08f003
+  .quad 0x0000000FE090003
+  .quad 0x0000000FE091003
+  .quad 0x0000000FE092003
+  .quad 0x0000000FE093003
+  .quad 0x0000000FE094003
+  .quad 0x0000000FE095003
+  .quad 0x0000000FE096003
+  .quad 0x0000000FE097003
+  .quad 0x0000000FE098003
+  .quad 0x0000000FE099003
+  .quad 0x0000000FE09a003
+  .quad 0x0000000FE09b003
+  .quad 0x0000000FE09c003
+  .quad 0x0000000FE09d003
+  .quad 0x0000000FE09e003
+  .quad 0x0000000FE09f003
+  .quad 0x0000000FE0a0003
+  .quad 0x0000000FE0a1003
+  .quad 0x0000000FE0a2003
+  .quad 0x0000000FE0a3003
+  .quad 0x0000000FE0a4003
+  .quad 0x0000000FE0a5003
+  .quad 0x0000000FE0a6003
+  .quad 0x0000000FE0a7003
+  .quad 0x0000000FE0a8003
+  .quad 0x0000000FE0a9003
+  .quad 0x0000000FE0aa003
+  .quad 0x0000000FE0ab003
+  .quad 0x0000000FE0ac003
+  .quad 0x0000000FE0ad003
+  .quad 0x0000000FE0ae003
+  .quad 0x0000000FE0af003
+  .quad 0x0000000FE0b0003
+  .quad 0x0000000FE0b1003
+  .quad 0x0000000FE0b2003
+  .quad 0x0000000FE0b3003
+  .quad 0x0000000FE0b4003
+  .quad 0x0000000FE0b5003
+  .quad 0x0000000FE0b6003
+  .quad 0x0000000FE0b7003
+  .quad 0x0000000FE0b8003
+  .quad 0x0000000FE0b9003
+  .quad 0x0000000FE0ba003
+  .quad 0x0000000FE0bb003
+  .quad 0x0000000FE0bc003
+  .quad 0x0000000FE0bd003
+  .quad 0x0000000FE0be003
+  .quad 0x0000000FE0bf003
+  .quad 0x0000000FE0c0003
+  .quad 0x0000000FE0c1003
+  .quad 0x0000000FE0c2003
+  .quad 0x0000000FE0c3003
+  .quad 0x0000000FE0c4003
+  .quad 0x0000000FE0c5003
+  .quad 0x0000000FE0c6003
+  .quad 0x0000000FE0c7003
+  .quad 0x0000000FE0c8003
+  .quad 0x0000000FE0c9003
+  .quad 0x0000000FE0ca003
+  .quad 0x0000000FE0cb003
+  .quad 0x0000000FE0cc003
+  .quad 0x0000000FE0cd003
+  .quad 0x0000000FE0ce003
+  .quad 0x0000000FE0cf003
+  .quad 0x0000000FE0d0003
+  .quad 0x0000000FE0d1003
+  .quad 0x0000000FE0d2003
+  .quad 0x0000000FE0d3003
+  .quad 0x0000000FE0d4003
+  .quad 0x0000000FE0d5003
+  .quad 0x0000000FE0d6003
+  .quad 0x0000000FE0d7003
+  .quad 0x0000000FE0d8003
+  .quad 0x0000000FE0d9003
+  .quad 0x0000000FE0da003
+  .quad 0x0000000FE0db003
+  .quad 0x0000000FE0dc003
+  .quad 0x0000000FE0dd003
+  .quad 0x0000000FE0de003
+  .quad 0x0000000FE0df003
+  .quad 0x0000000FE0e0003
+  .quad 0x0000000FE0e1003
+  .quad 0x0000000FE0e2003
+  .quad 0x0000000FE0e3003
+  .quad 0x0000000FE0e4003
+  .quad 0x0000000FE0e5003
+  .quad 0x0000000FE0e6003
+  .quad 0x0000000FE0e7003
+  .quad 0x0000000FE0e8003
+  .quad 0x0000000FE0e9003
+  .quad 0x0000000FE0ea003
+  .quad 0x0000000FE0eb003
+  .quad 0x0000000FE0ec003
+  .quad 0x0000000FE0ed003
+  .quad 0x0000000FE0ee003
+  .quad 0x0000000FE0ef003
+  .quad 0x0000000FE0f0003
+  .quad 0x0000000FE0f1003
+  .quad 0x0000000FE0f2003
+  .quad 0x0000000FE0f3003
+  .quad 0x0000000FE0f4003
+  .quad 0x0000000FE0f5003
+  .quad 0x0000000FE0f6003
+  .quad 0x0000000FE0f7003
+  .quad 0x0000000FE0f8003
+  .quad 0x0000000FE0f9003
+  .quad 0x0000000FE0fa003
+  .quad 0x0000000FE0fb003
+  .quad 0x0000000FE0fc003
+  .quad 0x0000000FE0fd003
+  .quad 0x0000000FE0fe003
+  .quad 0x0000000FE0ff003
+
+  .quad 0x0000000FE080003  # the page table for virt add 0xfe080000
+  .quad 0x0000000FE081003 
+  .quad 0x0000000FE082003
+  .quad 0x0000000FE083003
+  .quad 0x0000000FE084003  
+  .quad 0x0000000FE085003
+  .quad 0x0000000FE086003
+  .quad 0x0000000FE087003
+  .quad 0x0000000FE088003
+  .quad 0x0000000FE089003
+  .quad 0x0000000FE08a003
+  .quad 0x0000000FE08c003
+  .quad 0x0000000FE08d003
+  .quad 0x0000000FE08e003
+  .quad 0x0000000FE08f003
+  .quad 0x0000000FE08a003
+  .quad 0x0000000FE08b003
+  .quad 0x0000000FE08c003
+  .quad 0x0000000FE08d003
+  .quad 0x0000000FE08e003
+  .quad 0x0000000FE08f003
+  .quad 0x0000000FE090003
+  .quad 0x0000000FE091003 
+  .quad 0x0000000FE092003
+  .quad 0x0000000FE093003
+  .quad 0x0000000FE094003
+  .quad 0x0000000FE095003
+  .quad 0x0000000FE096003
+  .quad 0x0000000FE097003
+  .quad 0x0000000FE098003
+  .quad 0x0000000FE099003
+  .quad 0x0000000FE09a003
+  .quad 0x0000000FE09b003
+  .quad 0x0000000FE09c003
+  .quad 0x0000000FE09d003
+  .quad 0x0000000FE09e003
+  .quad 0x0000000FE09f003
+  .quad 0x0000000FE0a0003
+  .quad 0x0000000FE0a1003
+  .quad 0x0000000FE0a2003
+  .quad 0x0000000FE0a3003
+  .quad 0x0000000FE0a4003
+  .quad 0x0000000FE0a5003
+  .quad 0x0000000FE0a6003
+  .quad 0x0000000FE0a7003
+  .quad 0x0000000FE0a8003
+  .quad 0x0000000FE0a9003
+  .quad 0x0000000FE0aa003
+  .quad 0x0000000FE0ab003
+  .quad 0x0000000FE0ac003
+  .quad 0x0000000FE0ad003
+  .quad 0x0000000FE0ae003
+  .quad 0x0000000FE0af003
+  .quad 0x0000000FE0a0003
+  .quad 0x0000000FE0b1003
+  .quad 0x0000000FE0b2003
+  .quad 0x0000000FE0b3003
+  .quad 0x0000000FE0b4003
+  .quad 0x0000000FE0b5003
+  .quad 0x0000000FE0b6003
+  .quad 0x0000000FE0b7003
+  .quad 0x0000000FE0b8003
+  .quad 0x0000000FE0b9003
+  .quad 0x0000000FE0ba003
+  .quad 0x0000000FE0bb003
+  .quad 0x0000000FE0bc003
+  .quad 0x0000000FE0bd003
+  .quad 0x0000000FE0be003
+  .quad 0x0000000FE0bf003
+  .quad 0x0000000FE0c0003
+  .quad 0x0000000FE0c1003
+  .quad 0x0000000FE0c2003
+  .quad 0x0000000FE0c3003
+  .quad 0x0000000FE0c4003
+  .quad 0x0000000FE0c5003
+  .quad 0x0000000FE0c6003
+  .quad 0x0000000FE0c7003
+  .quad 0x0000000FE0c8003
+  .quad 0x0000000FE0c9003
+  .quad 0x0000000FE0ca003
+  .quad 0x0000000FE0cb003
+  .quad 0x0000000FE0cc003
+  .quad 0x0000000FE0cd003
+  .quad 0x0000000FE0ce003
+  .quad 0x0000000FE0cf003
+  .quad 0x0000000FE0d0003
+  .quad 0x0000000FE0d1003
+  .quad 0x0000000FE0d2003
+  .quad 0x0000000FE0d3003
+  .quad 0x0000000FE0d4003
+  .quad 0x0000000FE0d5003
+  .quad 0x0000000FE0d6003
+  .quad 0x0000000FE0d7003
+  .quad 0x0000000FE0d8003
+  .quad 0x0000000FE0d9003
+  .quad 0x0000000FE0da003
+  .quad 0x0000000FE0db003
+  .quad 0x0000000FE0dc003
+  .quad 0x0000000FE0dd003
+  .quad 0x0000000FE0de003
+  .quad 0x0000000FE0df003
+  .quad 0x0000000FE0e0003
+  .quad 0x0000000FE0e1003
+  .quad 0x0000000FE0e2003
+  .quad 0x0000000FE0e3003
+  .quad 0x0000000FE0e4003
+  .quad 0x0000000FE0e5003
+  .quad 0x0000000FE0e6003
+  .quad 0x0000000FE0e7003
+  .quad 0x0000000FE0e8003
+  .quad 0x0000000FE0e9003
+  .quad 0x0000000FE0ea003
+  .quad 0x0000000FE0eb003
+  .quad 0x0000000FE0ec003
+  .quad 0x0000000FE0ed003
+  .quad 0x0000000FE0ee003
+  .quad 0x0000000FE0ef003
+  .quad 0x0000000FE0f0003
+  .quad 0x0000000FE0f1003
+  .quad 0x0000000FE0f2003
+  .quad 0x0000000FE0f3003
+  .quad 0x0000000FE0f4003
+  .quad 0x0000000FE0f5003
+  .quad 0x0000000FE0f6003
+  .quad 0x0000000FE0f7003
+  .quad 0x0000000FE0f8003
+  .quad 0x0000000FE0f9003
+  .quad 0x0000000FE0fa003
+  .quad 0x0000000FE0fb003 # extend this pattern for more mem
+
+  .quad 0x0000000FE0fc003 
+  .quad 0x0000000FE0fe003
+  .quad 0x0000000FE0ff003
+
+  .quad 0x0000000FE183003
+  .quad 0x0000000FE184003
+  .quad 0x0000000FE185003
+  .quad 0x0000000FE186003
+  .quad 0x0000000FE187003
+  .quad 0x0000000FE188003
+  .quad 0x0000000FE189003
+  .quad 0x0000000FE18a003
+  .quad 0x0000000FE18b003
+  .quad 0x0000000FE18c003
+  .quad 0x0000000FE18d003
+  .quad 0x0000000FE18e003
+  .quad 0x0000000FE18f003
+  .quad 0x0000000FE190003
+  .quad 0x0000000FE191003
+  .quad 0x0000000FE192003
+  .quad 0x0000000FE193003
+  .quad 0x0000000FE194003
+  .quad 0x0000000FE195003
+  .quad 0x0000000FE196003
+  .quad 0x0000000FE197003
+  .quad 0x0000000FE198003
+  .quad 0x0000000FE199003
+  .quad 0x0000000FE19a003
+  .quad 0x0000000FE19b003
+  .quad 0x0000000FE19c003
+  .quad 0x0000000FE19d003
+  .quad 0x0000000FE19e003
+  .quad 0x0000000FE19f003
+  .quad 0x0000000FE1a0003
+  .quad 0x0000000FE1a1003
+  .quad 0x0000000FE1a2003
+  .quad 0x0000000FE1a3003
+  .quad 0x0000000FE1a4003
+  .quad 0x0000000FE1a5003
+  .quad 0x0000000FE1a6003
+  .quad 0x0000000FE1a7003
+  .quad 0x0000000FE1a8003
+  .quad 0x0000000FE1a9003
+  .quad 0x0000000FE1aa003
+  .quad 0x0000000FE1ab003
+  .quad 0x0000000FE1ac003
+  .quad 0x0000000FE1ad003
+  .quad 0x0000000FE1ae003
+  .quad 0x0000000FE1af003
+  .quad 0x0000000FE1b0003
+  .quad 0x0000000FE1b1003
+  .quad 0x0000000FE1b2003
+  .quad 0x0000000FE1b3003
+  .quad 0x0000000FE1b4003
+  .quad 0x0000000FE1b5003
+  .quad 0x0000000FE1b6003
+  .quad 0x0000000FE1b7003
+  .quad 0x0000000FE1b8003
+  .quad 0x0000000FE1b9003
+  .quad 0x0000000FE1ba003
+  .quad 0x0000000FE1bb003
+  .quad 0x0000000FE1bc003
+  .quad 0x0000000FE1bd003
+  .quad 0x0000000FE1be003
+  .quad 0x0000000FE1bf003
+  .quad 0x0000000FE1c0003
+  .quad 0x0000000FE1c1003
+  .quad 0x0000000FE1c2003
+  .quad 0x0000000FE1c3003
+  .quad 0x0000000FE1c4003
+  .quad 0x0000000FE1c5003
+  .quad 0x0000000FE1c6003
+  .quad 0x0000000FE1c7003
+  .quad 0x0000000FE1c8003
+  .quad 0x0000000FE1c9003
+  .quad 0x0000000FE1ca003
+  .quad 0x0000000FE1cb003
+  .quad 0x0000000FE1cc003
+  .quad 0x0000000FE1cd003
+  .quad 0x0000000FE1ce003
+  .quad 0x0000000FE1cf003
+  .quad 0x0000000FE1d0003
+  .quad 0x0000000FE1d1003
+  .quad 0x0000000FE1d2003
+  .quad 0x0000000FE1d3003
+  .quad 0x0000000FE1d4003
+  .quad 0x0000000FE1d5003
+  .quad 0x0000000FE1d6003
+  .quad 0x0000000FE1d7003
+  .quad 0x0000000FE1d8003
+  .quad 0x0000000FE1d9003
+  .quad 0x0000000FE1da003
+  .quad 0x0000000FE1db003
+  .quad 0x0000000FE1dc003
+  .quad 0x0000000FE1dd003
+  .quad 0x0000000FE1de003
+  .quad 0x0000000FE1df003
+  .quad 0x0000000FE1e0003
+  .quad 0x0000000FE1e1003
+  .quad 0x0000000FE1e2003
+  .quad 0x0000000FE1e3003
+  .quad 0x0000000FE1e4003
+  .quad 0x0000000FE1e5003
+  .quad 0x0000000FE1e6003
+  .quad 0x0000000FE1e7003
+  .quad 0x0000000FE1e8003
+  .quad 0x0000000FE1e9003
+  .quad 0x0000000FE1ea003
+  .quad 0x0000000FE1eb003
+  .quad 0x0000000FE1ec003
+  .quad 0x0000000FE1ed003
+  .quad 0x0000000FE1ee003
+  .quad 0x0000000FE1ef003
+  .quad 0x0000000FE1f0003
+  .quad 0x0000000FE1f1003
+  .quad 0x0000000FE1f2003
+  .quad 0x0000000FE1f3003
+  .quad 0x0000000FE1f4003
+  .quad 0x0000000FE1f5003
+  .quad 0x0000000FE1f6003
+  .quad 0x0000000FE1f7003
+  .quad 0x0000000FE1f8003
+  .quad 0x0000000FE1f9003
+  .quad 0x0000000FE1fa003
+  .quad 0x0000000FE1fb003
+  .quad 0x0000000FE1fc003
+  .quad 0x0000000FE1fd003
+  .quad 0x0000000FE1fe003
+  .quad 0x0000000FE1ff003
+
+
+  .quad 0x0000000FE200003 
+  .quad 0x0000000FE201003
+  .quad 0x0000000FE202003
+  .quad 0x0000000FE203003
+  .quad 0x0000000FE204003
+  .quad 0x0000000FE205003
+  .quad 0x0000000FE206003
+  .quad 0x0000000FE207003
+  .quad 0x0000000FE208003
+  .quad 0x0000000FE209003
+  .quad 0x0000000FE20a003
+  .quad 0x0000000FE20b003
+  .quad 0x0000000FE20c003
+  .quad 0x0000000FE20d003
+  .quad 0x0000000FE20e003
+  .quad 0x0000000FE20f003
+  .quad 0x0000000FE210003
+  .quad 0x0000000FE211003
+  .quad 0x0000000FE212003
+  .quad 0x0000000FE213003
+  .quad 0x0000000FE214003
+  .quad 0x0000000FE215003
+  .quad 0x0000000FE216003
+  .quad 0x0000000FE217003
+  .quad 0x0000000FE218003
+  .quad 0x0000000FE219003
+  .quad 0x0000000FE21a003
+  .quad 0x0000000FE21b003
+  .quad 0x0000000FE21c003
+  .quad 0x0000000FE21d003
+  .quad 0x0000000FE21e003
+  .quad 0x0000000FE21f003
+  .quad 0x0000000FE220003
+  .quad 0x0000000FE221003
+  .quad 0x0000000FE222003
+  .quad 0x0000000FE223003
+  .quad 0x0000000FE224003
+  .quad 0x0000000FE225003
+  .quad 0x0000000FE226003
+  .quad 0x0000000FE227003
+  .quad 0x0000000FE228003
+  .quad 0x0000000FE229003
+  .quad 0x0000000FE22a003
+  .quad 0x0000000FE22b003
+  .quad 0x0000000FE22c003
+  .quad 0x0000000FE22d003
+  .quad 0x0000000FE22e003
+  .quad 0x0000000FE22f003
+  .quad 0x0000000FE230003
+  .quad 0x0000000FE231003
+  .quad 0x0000000FE232003
+  .quad 0x0000000FE233003
+  .quad 0x0000000FE234003
+  .quad 0x0000000FE235003
+  .quad 0x0000000FE236003
+  .quad 0x0000000FE237003
+  .quad 0x0000000FE238003
+  .quad 0x0000000FE239003
+  .quad 0x0000000FE23a003
+  .quad 0x0000000FE23b003
+  .quad 0x0000000FE23c003
+  .quad 0x0000000FE23d003
+  .quad 0x0000000FE23e003
+  .quad 0x0000000FE23f003
+  .quad 0x0000000FE240003
+  .quad 0x0000000FE241003
+  .quad 0x0000000FE242003
+  .quad 0x0000000FE243003
+  .quad 0x0000000FE244003
+  .quad 0x0000000FE245003
+  .quad 0x0000000FE246003
+  .quad 0x0000000FE247003
+  .quad 0x0000000FE248003
+  .quad 0x0000000FE249003
+  .quad 0x0000000FE24a003
+  .quad 0x0000000FE24b003
+  .quad 0x0000000FE24c003
+  .quad 0x0000000FE24d003
+  .quad 0x0000000FE24e003
+  .quad 0x0000000FE24f003
+  .quad 0x0000000FE250003
+  .quad 0x0000000FE251003
+  .quad 0x0000000FE252003
+  .quad 0x0000000FE253003
+  .quad 0x0000000FE254003
+  .quad 0x0000000FE255003
+  .quad 0x0000000FE256003
+  .quad 0x0000000FE257003
+  .quad 0x0000000FE258003
+  .quad 0x0000000FE259003
+  .quad 0x0000000FE25a003
+  .quad 0x0000000FE25b003
+  .quad 0x0000000FE25c003
+  .quad 0x0000000FE25d003
+  .quad 0x0000000FE25e003
+  .quad 0x0000000FE25f003
+  .quad 0x0000000FE260003
+  .quad 0x0000000FE261003
+  .quad 0x0000000FE262003
+  .quad 0x0000000FE263003
+  .quad 0x0000000FE264003
+  .quad 0x0000000FE265003
+  .quad 0x0000000FE266003
+  .quad 0x0000000FE267003
+  .quad 0x0000000FE268003
+  .quad 0x0000000FE269003
+  .quad 0x0000000FE26a003
+  .quad 0x0000000FE26b003
+  .quad 0x0000000FE26c003
+  .quad 0x0000000FE26d003
+  .quad 0x0000000FE26e003
+  
+  .quad 0x0000000FE081003  # the page directory fo 0xfe000000 to 0xfe1fffff
+ .org 0x3000
+ # GDT entry:
+ old_GDT:
+ .quad 0x0000000000000000
+ .quad 0x0000C20030004000
+
+ # local descriptor table
+ # virtual address 0x3000 is at physical 0xfe083000
+ GDT:
+ .org 0x4000
+  # was .quad 0x5A320FC0000080B9
+ .quad 0x0000000000000000
+ .quad 0x00BF9A000000FFFF
+ .quad 0x000092000000FFFF
+ .quad 0xfe000b08a000ffff
+ .quad 0x0000000000000000
+
+ GDT_TMP:
+  .quad 0x00
+
+ # This code sets up the GDTs
+ .org 0x5000
+GDT_VAL:
+ .quad 0x4000FFFF
+ .quad 0x00000000
+ .word 0x0008
+switch_64bit:
+ mov %eax, %cr0
+ nop
+ nop
+ nop
+ nop
+ nop
+ nop
+ mov 0xfe085000, %eax  # to see what we get
+ lgdt 0xfe085000
+
+endloop2:
+ jmp endloop2  # use the ITP to change cs to switch to 64 bit mode
+
+.org 0x6000
+main:
+    # switch to 64 bit
+    # Set EFER NXE=>0, SCE=>1, LME=>1,
+    mov $0xc0000080, %ecx  # Read EFER
+    rdmsr
+    or $0x0101, %eax
+    and $0xfffffffffffff7ff, %eax
+    wrmsr
+
+    # Set CR4 PSE=>0, PAE=>1,
+    mov %cr4, %eax
+    or $0x20, %eax
+    and $0xffffffffffffffef, %eax
+    mov %eax, %cr4
+    lea (pagedir_segbegin+0xe080000), %eax    # the +0xe080000 is because I'm relocating the code.  It is kludy, i know
+    or $0xF0000000, %eax     # I am relocating the code to 0xFE08000, but gcc ld wont put the segments there
+    and  $0xFFFFF000, %eax   # set PCD=0, PWT=0
+    mov %eax, %cr3
+
+    mov %cr0, %eax
+    or $0x80000000, %eax
+    # this final mov moved to after the jump
+    # we need to be in an identically mapped page when we do this write
+    mov %eax, %cr0
+ 
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    mov 0xfe085000, %eax
+    lgdt 0xfe085000
+
+    nop
+    xor %eax, %eax
+    inc %eax
+
+    ljmp $0x08, $(main_long_jump+0xfe080000)
+    nop
+
+main_long_jump:
+    nop
+
+main_end:
+    jmp main_end
+
+
+
+

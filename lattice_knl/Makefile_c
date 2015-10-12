@@ -1,0 +1,44 @@
+BASE=lattice_64bit
+CC=icc
+
+all: $(BASE)_short.dis  $(BASE) $(BASE)_chomp.s
+
+$(BASE).dis: $(BASE).l
+	objdump -z -D $(BASE).l > $(BASE).dis
+
+$(BASE).l: $(BASE).o 
+	ld --section-start .interp=0x0b000 $(BASE).o -o $(BASE).l -emain 
+
+$(BASE).o: $(BASE).c
+	$(CC) $(BASE).c -o $(BASE).o -O3 
+
+$(BASE): $(BASE).c
+	$(CC) $(BASE).c -o $(BASE)  -O3 -g
+
+$(BASE)_short.dis: $(BASE).dis
+	sed '/ctors/,$$d' $(BASE).dis > $(BASE)_short.dis
+
+$(BASE)_chomp.s: $(BASE).dis
+	# delete from start to main function
+	sed -e'1,/<main>/d' $(BASE).dis > $(BASE)_chomp.s
+
+	# delete from end of main to end of file
+	sed -i'.bak1' -e'/<main_test>/,$$d' $(BASE)_chomp.s
+
+	# delete the junk at the start of the lines
+	sed -i'.bak2' -e's/^...............................//' $(BASE)_chomp.s
+	sed -i'.bak3' -e'/^    b/d' $(BASE)_chomp.s
+
+	# replace the memory accesses
+	# unfortunately, this stuff needs to be done any time addresses move around
+    # this is where there would be some stuff to remove memory accesses, but that kind of needs to be done by hand.
+
+	# delete the stuff added for c at the beginning of main
+	sed -i'.bak5' -e'1,/ldmxcsr/d' $(BASE)_chomp.s
+	sed -i'.bak6' -e'1s/^/.text\n    .global main\nmain:\n/' $(BASE)_chomp.s 
+
+.PHONY: touchit
+
+touchit:
+	touch $(BASE).c
+

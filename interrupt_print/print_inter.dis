@@ -1,0 +1,760 @@
+
+print_inter.l:     file format elf64-x86-64
+
+Disassembly of section .text:
+
+0000000000087100 <main>:
+   87100:	90                   	nop    
+
+0000000000087101 <call_test>:
+   87101:	90                   	nop    
+   87102:	90                   	nop    
+   87103:	e8 04 00 00 00       	callq  8710c <subrout>
+   87108:	90                   	nop    
+   87109:	90                   	nop    
+   8710a:	eb f5                	jmp    87101 <call_test>
+
+000000000008710c <subrout>:
+   8710c:	90                   	nop    
+   8710d:	c3                   	retq   
+
+000000000008710e <int_handle_return>:
+   8710e:	fa                   	cli    
+   8710f:	fb                   	sti    
+   87110:	48 cf                	iretq  
+   87112:	cf                   	iret   
+
+0000000000087113 <isr_common_stub>:
+   87113:	90                   	nop    
+   87114:	53                   	push   %rbx
+   87115:	52                   	push   %rdx
+   87116:	51                   	push   %rcx
+   87117:	50                   	push   %rax
+   87118:	31 c0                	xor    %eax,%eax
+   8711a:	89 e0                	mov    %esp,%eax
+   8711c:	83 c0 20             	add    $0x20,%eax
+   8711f:	67 8b 08             	addr32 mov (%eax),%ecx
+
+0000000000087122 <ser_poll_i>:
+   87122:	ba fd 03 00 00       	mov    $0x3fd,%edx
+   87127:	ec                   	in     (%dx),%al
+   87128:	a8 20                	test   $0x20,%al
+   8712a:	74 f6                	je     87122 <ser_poll_i>
+   8712c:	67 8a 01             	addr32 mov (%ecx),%al
+   8712f:	ba f8 03 00 00       	mov    $0x3f8,%edx
+   87134:	ee                   	out    %al,(%dx)
+   87135:	ff c1                	inc    %ecx
+   87137:	67 8a 01             	addr32 mov (%ecx),%al
+   8713a:	84 c0                	test   %al,%al
+   8713c:	75 e4                	jne    87122 <ser_poll_i>
+   8713e:	48 31 c9             	xor    %rcx,%rcx
+   87141:	48 81 c1 80 1d 2c 04 	add    $0x42c1d80,%rcx
+
+0000000000087148 <loop_delay_int>:
+   87148:	90                   	nop    
+   87149:	e2 fd                	loop   87148 <loop_delay_int>
+   8714b:	58                   	pop    %rax
+   8714c:	59                   	pop    %rcx
+   8714d:	5a                   	pop    %rdx
+   8714e:	5b                   	pop    %rbx
+   8714f:	83 c4 10             	add    $0x10,%esp
+   87152:	fb                   	sti    
+   87153:	48 cf                	iretq  
+   87155:	90                   	nop    
+
+0000000000087156 <int_handle_0>:
+   87156:	fa                   	cli    
+   87157:	6a 00                	pushq  $0x0
+   87159:	68 37 73 08 00       	pushq  $0x87337
+   8715e:	eb b3                	jmp    87113 <isr_common_stub>
+   87160:	90                   	nop    
+
+0000000000087161 <int_handle_1>:
+   87161:	fa                   	cli    
+   87162:	6a 00                	pushq  $0x0
+   87164:	68 59 73 08 00       	pushq  $0x87359
+   87169:	eb a8                	jmp    87113 <isr_common_stub>
+   8716b:	90                   	nop    
+
+000000000008716c <int_handle_2>:
+   8716c:	fa                   	cli    
+   8716d:	6a 00                	pushq  $0x0
+   8716f:	68 77 73 08 00       	pushq  $0x87377
+   87174:	eb 9d                	jmp    87113 <isr_common_stub>
+   87176:	90                   	nop    
+
+0000000000087177 <int_handle_3>:
+   87177:	fa                   	cli    
+   87178:	6a 00                	pushq  $0x0
+   8717a:	68 9a 73 08 00       	pushq  $0x8739a
+   8717f:	eb 92                	jmp    87113 <isr_common_stub>
+   87181:	90                   	nop    
+
+0000000000087182 <int_handle_4>:
+   87182:	fa                   	cli    
+   87183:	6a 00                	pushq  $0x0
+   87185:	68 ba 73 08 00       	pushq  $0x873ba
+   8718a:	eb 87                	jmp    87113 <isr_common_stub>
+   8718c:	90                   	nop    
+
+000000000008718d <int_handle_5>:
+   8718d:	fa                   	cli    
+   8718e:	6a 00                	pushq  $0x0
+   87190:	68 d8 73 08 00       	pushq  $0x873d8
+   87195:	e9 79 ff ff ff       	jmpq   87113 <isr_common_stub>
+   8719a:	90                   	nop    
+
+000000000008719b <int_handle_6>:
+   8719b:	fa                   	cli    
+   8719c:	6a 00                	pushq  $0x0
+   8719e:	68 02 74 08 00       	pushq  $0x87402
+   871a3:	e9 6b ff ff ff       	jmpq   87113 <isr_common_stub>
+   871a8:	90                   	nop    
+
+00000000000871a9 <int_handle_7>:
+   871a9:	fa                   	cli    
+   871aa:	6a 00                	pushq  $0x0
+   871ac:	68 26 74 08 00       	pushq  $0x87426
+   871b1:	e9 5d ff ff ff       	jmpq   87113 <isr_common_stub>
+   871b6:	90                   	nop    
+
+00000000000871b7 <int_handle_8>:
+   871b7:	fa                   	cli    
+   871b8:	68 66 74 08 00       	pushq  $0x87466
+   871bd:	e9 51 ff ff ff       	jmpq   87113 <isr_common_stub>
+   871c2:	90                   	nop    
+
+00000000000871c3 <int_handle_9>:
+   871c3:	fa                   	cli    
+   871c4:	6a 00                	pushq  $0x0
+   871c6:	68 88 74 08 00       	pushq  $0x87488
+   871cb:	e9 43 ff ff ff       	jmpq   87113 <isr_common_stub>
+   871d0:	90                   	nop    
+
+00000000000871d1 <int_handle_10>:
+   871d1:	fa                   	cli    
+   871d2:	68 c4 74 08 00       	pushq  $0x874c4
+   871d7:	e9 37 ff ff ff       	jmpq   87113 <isr_common_stub>
+   871dc:	90                   	nop    
+
+00000000000871dd <int_handle_11>:
+   871dd:	fa                   	cli    
+   871de:	68 e6 74 08 00       	pushq  $0x874e6
+   871e3:	e9 2b ff ff ff       	jmpq   87113 <isr_common_stub>
+   871e8:	90                   	nop    
+
+00000000000871e9 <int_handle_12>:
+   871e9:	fa                   	cli    
+   871ea:	68 10 75 08 00       	pushq  $0x87510
+   871ef:	e9 1f ff ff ff       	jmpq   87113 <isr_common_stub>
+   871f4:	90                   	nop    
+
+00000000000871f5 <int_handle_13>:
+   871f5:	fa                   	cli    
+   871f6:	68 3a 75 08 00       	pushq  $0x8753a
+   871fb:	e9 13 ff ff ff       	jmpq   87113 <isr_common_stub>
+   87200:	90                   	nop    
+
+0000000000087201 <int_handle_14>:
+   87201:	fa                   	cli    
+   87202:	68 63 75 08 00       	pushq  $0x87563
+   87207:	e9 07 ff ff ff       	jmpq   87113 <isr_common_stub>
+   8720c:	90                   	nop    
+
+000000000008720d <int_handle_15>:
+   8720d:	fa                   	cli    
+   8720e:	6a 00                	pushq  $0x0
+   87210:	68 84 75 08 00       	pushq  $0x87584
+   87215:	e9 f9 fe ff ff       	jmpq   87113 <isr_common_stub>
+   8721a:	90                   	nop    
+
+000000000008721b <int_handle_16>:
+   8721b:	fa                   	cli    
+   8721c:	6a 00                	pushq  $0x0
+   8721e:	68 a3 75 08 00       	pushq  $0x875a3
+   87223:	e9 eb fe ff ff       	jmpq   87113 <isr_common_stub>
+   87228:	90                   	nop    
+
+0000000000087229 <int_handle_17>:
+   87229:	fa                   	cli    
+   8722a:	68 df 75 08 00       	pushq  $0x875df
+   8722f:	e9 df fe ff ff       	jmpq   87113 <isr_common_stub>
+   87234:	90                   	nop    
+
+0000000000087235 <int_handle_18>:
+   87235:	fa                   	cli    
+   87236:	6a 00                	pushq  $0x0
+   87238:	68 05 76 08 00       	pushq  $0x87605
+   8723d:	e9 d1 fe ff ff       	jmpq   87113 <isr_common_stub>
+   87242:	90                   	nop    
+
+0000000000087243 <int_handle_19>:
+   87243:	fa                   	cli    
+   87244:	6a 00                	pushq  $0x0
+   87246:	68 29 76 08 00       	pushq  $0x87629
+   8724b:	e9 c3 fe ff ff       	jmpq   87113 <isr_common_stub>
+   87250:	90                   	nop    
+
+0000000000087251 <int_handle_32>:
+   87251:	fa                   	cli    
+   87252:	6a 00                	pushq  $0x0
+   87254:	68 5d 76 08 00       	pushq  $0x8765d
+   87259:	e9 b5 fe ff ff       	jmpq   87113 <isr_common_stub>
+
+000000000008725e <force_int_32>:
+   8725e:	90                   	nop    
+   8725f:	fb                   	sti    
+   87260:	90                   	nop    
+   87261:	b9 8b 76 08 00       	mov    $0x8768b,%ecx
+
+0000000000087266 <ser_poll_3>:
+   87266:	ba fd 03 00 00       	mov    $0x3fd,%edx
+   8726b:	ec                   	in     (%dx),%al
+   8726c:	a8 20                	test   $0x20,%al
+   8726e:	74 f6                	je     87266 <ser_poll_3>
+   87270:	67 8a 01             	addr32 mov (%ecx),%al
+   87273:	ba f8 03 00 00       	mov    $0x3f8,%edx
+   87278:	ee                   	out    %al,(%dx)
+   87279:	ff c1                	inc    %ecx
+   8727b:	67 8a 01             	addr32 mov (%ecx),%al
+   8727e:	84 c0                	test   %al,%al
+   87280:	75 e4                	jne    87266 <ser_poll_3>
+   87282:	90                   	nop    
+   87283:	cd 20                	int    $0x20
+   87285:	90                   	nop    
+   87286:	b9 a4 76 08 00       	mov    $0x876a4,%ecx
+
+000000000008728b <ser_poll_4>:
+   8728b:	ba fd 03 00 00       	mov    $0x3fd,%edx
+   87290:	ec                   	in     (%dx),%al
+   87291:	a8 20                	test   $0x20,%al
+   87293:	74 f6                	je     8728b <ser_poll_4>
+   87295:	67 8a 01             	addr32 mov (%ecx),%al
+   87298:	ba f8 03 00 00       	mov    $0x3f8,%edx
+   8729d:	ee                   	out    %al,(%dx)
+   8729e:	ff c1                	inc    %ecx
+   872a0:	67 8a 01             	addr32 mov (%ecx),%al
+   872a3:	84 c0                	test   %al,%al
+   872a5:	75 e4                	jne    8728b <ser_poll_4>
+   872a7:	90                   	nop    
+
+00000000000872a8 <int_done>:
+   872a8:	90                   	nop    
+   872a9:	eb fd                	jmp    872a8 <int_done>
+
+00000000000872ab <force_int_18>:
+   872ab:	90                   	nop    
+   872ac:	fb                   	sti    
+   872ad:	90                   	nop    
+   872ae:	b9 8b 76 08 00       	mov    $0x8768b,%ecx
+
+00000000000872b3 <ser_poll_3a>:
+   872b3:	ba fd 03 00 00       	mov    $0x3fd,%edx
+   872b8:	ec                   	in     (%dx),%al
+   872b9:	a8 20                	test   $0x20,%al
+   872bb:	74 f6                	je     872b3 <ser_poll_3a>
+   872bd:	67 8a 01             	addr32 mov (%ecx),%al
+   872c0:	ba f8 03 00 00       	mov    $0x3f8,%edx
+   872c5:	ee                   	out    %al,(%dx)
+   872c6:	ff c1                	inc    %ecx
+   872c8:	67 8a 01             	addr32 mov (%ecx),%al
+   872cb:	84 c0                	test   %al,%al
+   872cd:	75 e4                	jne    872b3 <ser_poll_3a>
+   872cf:	90                   	nop    
+   872d0:	cd 12                	int    $0x12
+   872d2:	90                   	nop    
+   872d3:	b9 a4 76 08 00       	mov    $0x876a4,%ecx
+
+00000000000872d8 <ser_poll_4a>:
+   872d8:	ba fd 03 00 00       	mov    $0x3fd,%edx
+   872dd:	ec                   	in     (%dx),%al
+   872de:	a8 20                	test   $0x20,%al
+   872e0:	74 f6                	je     872d8 <ser_poll_4a>
+   872e2:	67 8a 01             	addr32 mov (%ecx),%al
+   872e5:	ba f8 03 00 00       	mov    $0x3f8,%edx
+   872ea:	ee                   	out    %al,(%dx)
+   872eb:	ff c1                	inc    %ecx
+   872ed:	67 8a 01             	addr32 mov (%ecx),%al
+   872f0:	84 c0                	test   %al,%al
+   872f2:	75 e4                	jne    872d8 <ser_poll_4a>
+   872f4:	90                   	nop    
+
+00000000000872f5 <int_done_a>:
+   872f5:	90                   	nop    
+   872f6:	eb fd                	jmp    872f5 <int_done_a>
+
+00000000000872f8 <send_ipi_32_to_all>:
+   872f8:	ba 10 03 e0 fe       	mov    $0xfee00310,%edx
+   872fd:	67 c7 02 00 00 00 00 	addr32 movl $0x0,(%edx)
+   87304:	ba 00 03 e0 fe       	mov    $0xfee00300,%edx
+   87309:	67 c7 02 20 40 0c 00 	addr32 movl $0xc4020,(%edx)
+
+0000000000087310 <ipi0_loop>:
+   87310:	eb fe                	jmp    87310 <ipi0_loop>
+
+0000000000087312 <send_ipi_to_1>:
+   87312:	ba 10 03 e0 fe       	mov    $0xfee00310,%edx
+   87317:	67 c7 02 00 00 00 10 	addr32 movl $0x10000000,(%edx)
+   8731e:	ba 00 03 e0 fe       	mov    $0xfee00300,%edx
+   87323:	67 c7 02 20 00 00 00 	addr32 movl $0x20,(%edx)
+
+000000000008732a <ipi1_loop>:
+   8732a:	eb fe                	jmp    8732a <ipi1_loop>
+
+000000000008732c <msg_start>:
+   8732c:	53                   	push   %rbx
+   8732d:	74 61                	je     87390 <msg_int_2+0x19>
+   8732f:	72 74                	jb     873a5 <msg_int_3+0xb>
+   87331:	69 6e 67 0d 0a 00 fe 	imul   $0xfe000a0d,0x67(%rsi),%ebp
+
+0000000000087337 <msg_int_0>:
+   87337:	fe                   	(bad)  
+   87338:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8733b:	74 65                	je     873a2 <msg_int_3+0x8>
+   8733d:	72 72                	jb     873b1 <msg_int_3+0x17>
+   8733f:	75 70                	jne    873b1 <msg_int_3+0x17>
+   87341:	74 20                	je     87363 <msg_int_1+0xa>
+   87343:	30 3a                	xor    %bh,(%rdx)
+   87345:	20 23                	and    %ah,(%rbx)
+   87347:	44                   	rex.R
+   87348:	45 20 44 69 76       	and    %r8b,0x76(%r9,%rbp,2)
+   8734d:	69 64 65 20 45 72 72 	imul   $0x6f727245,0x20(%rbp,2),%esp
+   87354:	6f 
+   87355:	72 0d                	jb     87364 <msg_int_1+0xb>
+   87357:	0a 00                	or     (%rax),%al
+
+0000000000087359 <msg_int_1>:
+   87359:	fe                   	(bad)  
+   8735a:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8735d:	74 65                	je     873c4 <msg_int_4+0xa>
+   8735f:	72 72                	jb     873d3 <msg_int_4+0x19>
+   87361:	75 70                	jne    873d3 <msg_int_4+0x19>
+   87363:	74 20                	je     87385 <msg_int_2+0xe>
+   87365:	31 3a                	xor    %edi,(%rdx)
+   87367:	20 23                	and    %ah,(%rbx)
+   87369:	44                   	rex.R
+   8736a:	42 20 52 65          	rex.X and    %dl,0x65(%rdx)
+   8736e:	73 65                	jae    873d5 <msg_int_4+0x1b>
+   87370:	72 76                	jb     873e8 <msg_int_5+0x10>
+   87372:	65                   	gs
+   87373:	64                   	fs
+   87374:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+0000000000087377 <msg_int_2>:
+   87377:	fe                   	(bad)  
+   87378:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8737b:	74 65                	je     873e2 <msg_int_5+0xa>
+   8737d:	72 72                	jb     873f1 <msg_int_5+0x19>
+   8737f:	75 70                	jne    873f1 <msg_int_5+0x19>
+   87381:	74 20                	je     873a3 <msg_int_3+0x9>
+   87383:	32 3a                	xor    (%rdx),%bh
+   87385:	20 20                	and    %ah,(%rax)
+   87387:	20 20                	and    %ah,(%rax)
+   87389:	20 4e 4d             	and    %cl,0x4d(%rsi)
+   8738c:	49 20 49 6e          	rex.WB and    %cl,0x6e(%r9)
+   87390:	74 65                	je     873f7 <msg_int_5+0x1f>
+   87392:	72 72                	jb     87406 <msg_int_6+0x4>
+   87394:	75 70                	jne    87406 <msg_int_6+0x4>
+   87396:	74 0d                	je     873a5 <msg_int_3+0xb>
+   87398:	0a 00                	or     (%rax),%al
+
+000000000008739a <msg_int_3>:
+   8739a:	fe                   	(bad)  
+   8739b:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8739e:	74 65                	je     87405 <msg_int_6+0x3>
+   873a0:	72 72                	jb     87414 <msg_int_6+0x12>
+   873a2:	75 70                	jne    87414 <msg_int_6+0x12>
+   873a4:	74 20                	je     873c6 <msg_int_4+0xc>
+   873a6:	33 3a                	xor    (%rdx),%edi
+   873a8:	20 23                	and    %ah,(%rbx)
+   873aa:	42 50                	rex.X push   %rax
+   873ac:	20 42 72             	and    %al,0x72(%rdx)
+   873af:	65                   	gs
+   873b0:	61                   	(bad)  
+   873b1:	6b 70 6f 69          	imul   $0x69,0x6f(%rax),%esi
+   873b5:	6e                   	outsb  %ds:(%rsi),(%dx)
+   873b6:	74 0d                	je     873c5 <msg_int_4+0xb>
+   873b8:	0a 00                	or     (%rax),%al
+
+00000000000873ba <msg_int_4>:
+   873ba:	fe                   	(bad)  
+   873bb:	20 49 6e             	and    %cl,0x6e(%rcx)
+   873be:	74 65                	je     87425 <msg_int_6+0x23>
+   873c0:	72 72                	jb     87434 <msg_int_7+0xe>
+   873c2:	75 70                	jne    87434 <msg_int_7+0xe>
+   873c4:	74 20                	je     873e6 <msg_int_5+0xe>
+   873c6:	34 3a                	xor    $0x3a,%al
+   873c8:	20 23                	and    %ah,(%rbx)
+   873ca:	4f                   	rex.WRXB
+   873cb:	46 20 4f 76          	rex.RX and    %r9b,0x76(%rdi)
+   873cf:	65                   	gs
+   873d0:	72 66                	jb     87438 <msg_int_7+0x12>
+   873d2:	6c                   	insb   (%dx),%es:(%rdi)
+   873d3:	6f                   	outsl  %ds:(%rsi),(%dx)
+   873d4:	77 0d                	ja     873e3 <msg_int_5+0xb>
+   873d6:	0a 00                	or     (%rax),%al
+
+00000000000873d8 <msg_int_5>:
+   873d8:	fe                   	(bad)  
+   873d9:	20 49 6e             	and    %cl,0x6e(%rcx)
+   873dc:	74 65                	je     87443 <msg_int_7+0x1d>
+   873de:	72 72                	jb     87452 <msg_int_7+0x2c>
+   873e0:	75 70                	jne    87452 <msg_int_7+0x2c>
+   873e2:	74 20                	je     87404 <msg_int_6+0x2>
+   873e4:	35 3a 20 23 42       	xor    $0x4223203a,%eax
+   873e9:	52                   	push   %rdx
+   873ea:	20 42 4f             	and    %al,0x4f(%rdx)
+   873ed:	55                   	push   %rbp
+   873ee:	4e                   	rex.WRX
+   873ef:	44 20 52 61          	and    %r10b,0x61(%rdx)
+   873f3:	6e                   	outsb  %ds:(%rsi),(%dx)
+   873f4:	67 65 20 45 78       	addr32 and %al,%gs:0x78(%ebp)
+   873f9:	63 65 65             	movslq 0x65(%rbp),%esp
+   873fc:	64                   	fs
+   873fd:	65                   	gs
+   873fe:	64                   	fs
+   873ff:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+0000000000087402 <msg_int_6>:
+   87402:	fe                   	(bad)  
+   87403:	20 49 6e             	and    %cl,0x6e(%rcx)
+   87406:	74 65                	je     8746d <msg_int_8+0x7>
+   87408:	72 72                	jb     8747c <msg_int_8+0x16>
+   8740a:	75 70                	jne    8747c <msg_int_8+0x16>
+   8740c:	74 20                	je     8742e <msg_int_7+0x8>
+   8740e:	36 3a 20             	cmp    %ss:(%rax),%ah
+   87411:	23 55 44             	and    0x44(%rbp),%edx
+   87414:	20 49 6e             	and    %cl,0x6e(%rcx)
+   87417:	76 61                	jbe    8747a <msg_int_8+0x14>
+   87419:	6c                   	insb   (%dx),%es:(%rdi)
+   8741a:	69 64 20 4f 70 63 6f 	imul   $0x646f6370,0x4f(%rax),%esp
+   87421:	64 
+   87422:	65                   	gs
+   87423:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+0000000000087426 <msg_int_7>:
+   87426:	fe                   	(bad)  
+   87427:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8742a:	74 65                	je     87491 <msg_int_9+0x9>
+   8742c:	72 72                	jb     874a0 <msg_int_9+0x18>
+   8742e:	75 70                	jne    874a0 <msg_int_9+0x18>
+   87430:	74 20                	je     87452 <msg_int_7+0x2c>
+   87432:	37                   	(bad)  
+   87433:	3a 20                	cmp    (%rax),%ah
+   87435:	23 4e 4d             	and    0x4d(%rsi),%ecx
+   87438:	20 44 65 76          	and    %al,0x76(%rbp,2)
+   8743c:	69 63 65 20 6e 6f 74 	imul   $0x746f6e20,0x65(%rbx),%esp
+   87443:	20 41 76             	and    %al,0x76(%rcx)
+   87446:	61                   	(bad)  
+   87447:	69 6c 61 62 6c 65 20 	imul   $0x2820656c,0x62(%rcx,2),%ebp
+   8744e:	28 
+   8744f:	4e 6f                	rex.WRX outsl  %ds:(%rsi),(%dx)
+   87451:	20 4d 61             	and    %cl,0x61(%rbp)
+   87454:	74 68                	je     874be <msg_int_9+0x36>
+   87456:	20 43 6f             	and    %al,0x6f(%rbx)
+   87459:	70 72                	jo     874cd <msg_int_10+0x9>
+   8745b:	6f                   	outsl  %ds:(%rsi),(%dx)
+   8745c:	63 65 73             	movslq 0x73(%rbp),%esp
+   8745f:	73 6f                	jae    874d0 <msg_int_10+0xc>
+   87461:	72 29                	jb     8748c <msg_int_9+0x4>
+   87463:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+0000000000087466 <msg_int_8>:
+   87466:	fe                   	(bad)  
+   87467:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8746a:	74 65                	je     874d1 <msg_int_10+0xd>
+   8746c:	72 72                	jb     874e0 <msg_int_10+0x1c>
+   8746e:	75 70                	jne    874e0 <msg_int_10+0x1c>
+   87470:	74 20                	je     87492 <msg_int_9+0xa>
+   87472:	38 3a                	cmp    %bh,(%rdx)
+   87474:	20 23                	and    %ah,(%rbx)
+   87476:	44                   	rex.R
+   87477:	46 20 44 6f 75       	and    %r8b,0x75(%rdi,%r13,2)
+   8747c:	62                   	(bad)  
+   8747d:	6c                   	insb   (%dx),%es:(%rdi)
+   8747e:	65 20 46 61          	and    %al,%gs:0x61(%rsi)
+   87482:	75 6c                	jne    874f0 <msg_int_11+0xa>
+   87484:	74 0d                	je     87493 <msg_int_9+0xb>
+   87486:	0a 00                	or     (%rax),%al
+
+0000000000087488 <msg_int_9>:
+   87488:	fe                   	(bad)  
+   87489:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8748c:	74 65                	je     874f3 <msg_int_11+0xd>
+   8748e:	72 72                	jb     87502 <msg_int_11+0x1c>
+   87490:	75 70                	jne    87502 <msg_int_11+0x1c>
+   87492:	74 20                	je     874b4 <msg_int_9+0x2c>
+   87494:	39 3a                	cmp    %edi,(%rdx)
+   87496:	20 20                	and    %ah,(%rax)
+   87498:	20 20                	and    %ah,(%rax)
+   8749a:	20 43 6f             	and    %al,0x6f(%rbx)
+   8749d:	70 72                	jo     87511 <msg_int_12+0x1>
+   8749f:	6f                   	outsl  %ds:(%rsi),(%dx)
+   874a0:	63 65 73             	movslq 0x73(%rbp),%esp
+   874a3:	73 6f                	jae    87514 <msg_int_12+0x4>
+   874a5:	72 20                	jb     874c7 <msg_int_10+0x3>
+   874a7:	53                   	push   %rbx
+   874a8:	65                   	gs
+   874a9:	67 6d                	addr32 insl (%dx),%es:(%edi)
+   874ab:	65 6e                	outsb  %gs:(%rsi),(%dx)
+   874ad:	74 20                	je     874cf <msg_int_10+0xb>
+   874af:	4f 76 65             	rex.WRXB jbe    87517 <msg_int_12+0x7>
+   874b2:	72 72                	jb     87526 <msg_int_12+0x16>
+   874b4:	75 6e                	jne    87524 <msg_int_12+0x14>
+   874b6:	20 28                	and    %ch,(%rax)
+   874b8:	72 65                	jb     8751f <msg_int_12+0xf>
+   874ba:	73 65                	jae    87521 <msg_int_12+0x11>
+   874bc:	72 76                	jb     87534 <msg_int_12+0x24>
+   874be:	65 64 29 0d 0a 00 fe 	sub    %ecx,%fs:%gs:553517066(%rip)        # 210674d0 <_end+0x20edfe18>
+   874c5:	20 
+
+00000000000874c4 <msg_int_10>:
+   874c4:	fe                   	(bad)  
+   874c5:	20 49 6e             	and    %cl,0x6e(%rcx)
+   874c8:	74 65                	je     8752f <msg_int_12+0x1f>
+   874ca:	72 72                	jb     8753e <msg_int_13+0x4>
+   874cc:	75 70                	jne    8753e <msg_int_13+0x4>
+   874ce:	74 20                	je     874f0 <msg_int_11+0xa>
+   874d0:	31 30                	xor    %esi,(%rax)
+   874d2:	3a 20                	cmp    (%rax),%ah
+   874d4:	23 54 53 20          	and    0x20(%rbx,%rdx,2),%edx
+   874d8:	49 6e                	rex.WB outsb  %ds:(%rsi),(%dx)
+   874da:	76 61                	jbe    8753d <msg_int_13+0x3>
+   874dc:	6c                   	insb   (%dx),%es:(%rdi)
+   874dd:	69 64 20 54 53 53 0d 	imul   $0xa0d5353,0x54(%rax),%esp
+   874e4:	0a 
+	...
+
+00000000000874e6 <msg_int_11>:
+   874e6:	fe                   	(bad)  
+   874e7:	20 49 6e             	and    %cl,0x6e(%rcx)
+   874ea:	74 65                	je     87551 <msg_int_13+0x17>
+   874ec:	72 72                	jb     87560 <msg_int_13+0x26>
+   874ee:	75 70                	jne    87560 <msg_int_13+0x26>
+   874f0:	74 20                	je     87512 <msg_int_12+0x2>
+   874f2:	31 31                	xor    %esi,(%rcx)
+   874f4:	3a 20                	cmp    (%rax),%ah
+   874f6:	23 4e 50             	and    0x50(%rsi),%ecx
+   874f9:	20 53 65             	and    %dl,0x65(%rbx)
+   874fc:	67 6d                	addr32 insl (%dx),%es:(%edi)
+   874fe:	65 6e                	outsb  %gs:(%rsi),(%dx)
+   87500:	74 20                	je     87522 <msg_int_12+0x12>
+   87502:	4e 6f                	rex.WRX outsl  %ds:(%rsi),(%dx)
+   87504:	74 20                	je     87526 <msg_int_12+0x16>
+   87506:	50                   	push   %rax
+   87507:	72 65                	jb     8756e <msg_int_14+0xb>
+   87509:	73 65                	jae    87570 <msg_int_14+0xd>
+   8750b:	6e                   	outsb  %ds:(%rsi),(%dx)
+   8750c:	74 0d                	je     8751b <msg_int_12+0xb>
+   8750e:	0a 00                	or     (%rax),%al
+
+0000000000087510 <msg_int_12>:
+   87510:	fe                   	(bad)  
+   87511:	20 49 6e             	and    %cl,0x6e(%rcx)
+   87514:	74 65                	je     8757b <msg_int_14+0x18>
+   87516:	72 72                	jb     8758a <msg_int_15+0x6>
+   87518:	75 70                	jne    8758a <msg_int_15+0x6>
+   8751a:	74 20                	je     8753c <msg_int_13+0x2>
+   8751c:	31 32                	xor    %esi,(%rdx)
+   8751e:	3a 20                	cmp    (%rax),%ah
+   87520:	23 53 53             	and    0x53(%rbx),%edx
+   87523:	20 53 74             	and    %dl,0x74(%rbx)
+   87526:	61                   	(bad)  
+   87527:	63 6b 2d             	movslq 0x2d(%rbx),%ebp
+   8752a:	53                   	push   %rbx
+   8752b:	65                   	gs
+   8752c:	67 6d                	addr32 insl (%dx),%es:(%edi)
+   8752e:	65 6e                	outsb  %gs:(%rsi),(%dx)
+   87530:	74 20                	je     87552 <msg_int_13+0x18>
+   87532:	46 61                	rex.RX (bad)  
+   87534:	75 6c                	jne    875a2 <msg_int_15+0x1e>
+   87536:	74 0d                	je     87545 <msg_int_13+0xb>
+   87538:	0a 00                	or     (%rax),%al
+
+000000000008753a <msg_int_13>:
+   8753a:	fe                   	(bad)  
+   8753b:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8753e:	74 65                	je     875a5 <msg_int_16+0x2>
+   87540:	72 72                	jb     875b4 <msg_int_16+0x11>
+   87542:	75 70                	jne    875b4 <msg_int_16+0x11>
+   87544:	74 20                	je     87566 <msg_int_14+0x3>
+   87546:	31 33                	xor    %esi,(%rbx)
+   87548:	3a 20                	cmp    (%rax),%ah
+   8754a:	23 47 50             	and    0x50(%rdi),%eax
+   8754d:	20 47 65             	and    %al,0x65(%rdi)
+   87550:	6e                   	outsb  %ds:(%rsi),(%dx)
+   87551:	65                   	gs
+   87552:	72 61                	jb     875b5 <msg_int_16+0x12>
+   87554:	6c                   	insb   (%dx),%es:(%rdi)
+   87555:	20 50 72             	and    %dl,0x72(%rax)
+   87558:	6f                   	outsl  %ds:(%rsi),(%dx)
+   87559:	74 65                	je     875c0 <msg_int_16+0x1d>
+   8755b:	63 74 69 6f          	movslq 0x6f(%rcx,%rbp,2),%esi
+   8755f:	6e                   	outsb  %ds:(%rsi),(%dx)
+   87560:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+0000000000087563 <msg_int_14>:
+   87563:	fe                   	(bad)  
+   87564:	20 49 6e             	and    %cl,0x6e(%rcx)
+   87567:	74 65                	je     875ce <msg_int_16+0x2b>
+   87569:	72 72                	jb     875dd <msg_int_16+0x3a>
+   8756b:	75 70                	jne    875dd <msg_int_16+0x3a>
+   8756d:	74 20                	je     8758f <msg_int_15+0xb>
+   8756f:	31 34 3a             	xor    %esi,(%rdx,%rdi,1)
+   87572:	20 23                	and    %ah,(%rbx)
+   87574:	50                   	push   %rax
+   87575:	46 20 50 61          	rex.RX and    %r10b,0x61(%rax)
+   87579:	67 65 20 46 61       	addr32 and %al,%gs:0x61(%esi)
+   8757e:	75 6c                	jne    875ec <msg_int_17+0xd>
+   87580:	74 0d                	je     8758f <msg_int_15+0xb>
+   87582:	0a 00                	or     (%rax),%al
+
+0000000000087584 <msg_int_15>:
+   87584:	fe                   	(bad)  
+   87585:	20 49 6e             	and    %cl,0x6e(%rcx)
+   87588:	74 65                	je     875ef <msg_int_17+0x10>
+   8758a:	72 72                	jb     875fe <msg_int_17+0x1f>
+   8758c:	75 70                	jne    875fe <msg_int_17+0x1f>
+   8758e:	74 20                	je     875b0 <msg_int_16+0xd>
+   87590:	31 35 3a 20 20 20    	xor    %esi,538976314(%rip)        # 202895d0 <_end+0x20101f18>
+   87596:	20 20                	and    %ah,(%rax)
+   87598:	52                   	push   %rdx
+   87599:	65                   	gs
+   8759a:	73 65                	jae    87601 <msg_int_17+0x22>
+   8759c:	72 76                	jb     87614 <msg_int_18+0xf>
+   8759e:	65                   	gs
+   8759f:	64                   	fs
+   875a0:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+00000000000875a3 <msg_int_16>:
+   875a3:	fe                   	(bad)  
+   875a4:	20 49 6e             	and    %cl,0x6e(%rcx)
+   875a7:	74 65                	je     8760e <msg_int_18+0x9>
+   875a9:	72 72                	jb     8761d <msg_int_18+0x18>
+   875ab:	75 70                	jne    8761d <msg_int_18+0x18>
+   875ad:	74 20                	je     875cf <msg_int_16+0x2c>
+   875af:	31 36                	xor    %esi,(%rsi)
+   875b1:	3a 20                	cmp    (%rax),%ah
+   875b3:	23 4d 46             	and    0x46(%rbp),%ecx
+   875b6:	20 78 38             	and    %bh,0x38(%rax)
+   875b9:	37                   	(bad)  
+   875ba:	20 46 6c             	and    %al,0x6c(%rsi)
+   875bd:	6f                   	outsl  %ds:(%rsi),(%dx)
+   875be:	61                   	(bad)  
+   875bf:	74 69                	je     8762a <msg_int_19+0x1>
+   875c1:	6e                   	outsb  %ds:(%rsi),(%dx)
+   875c2:	67 2d 70 6f 69 6e    	addr32 sub $0x6e696f70,%eax
+   875c8:	74 20                	je     875ea <msg_int_17+0xb>
+   875ca:	45 72 72             	rex.RB jb     8763f <msg_int_19+0x16>
+   875cd:	6f                   	outsl  %ds:(%rsi),(%dx)
+   875ce:	72 20                	jb     875f0 <msg_int_17+0x11>
+   875d0:	28 4d 61             	sub    %cl,0x61(%rbp)
+   875d3:	74 68                	je     8763d <msg_int_19+0x14>
+   875d5:	20 46 61             	and    %al,0x61(%rsi)
+   875d8:	75 6c                	jne    87646 <msg_int_19+0x1d>
+   875da:	74 29                	je     87605 <msg_int_18>
+   875dc:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+00000000000875df <msg_int_17>:
+   875df:	fe                   	(bad)  
+   875e0:	20 49 6e             	and    %cl,0x6e(%rcx)
+   875e3:	74 65                	je     8764a <msg_int_19+0x21>
+   875e5:	72 72                	jb     87659 <msg_int_19+0x30>
+   875e7:	75 70                	jne    87659 <msg_int_19+0x30>
+   875e9:	74 20                	je     8760b <msg_int_18+0x6>
+   875eb:	31 37                	xor    %esi,(%rdi)
+   875ed:	3a 20                	cmp    (%rax),%ah
+   875ef:	23 41 43             	and    0x43(%rcx),%eax
+   875f2:	20 41 6c             	and    %al,0x6c(%rcx)
+   875f5:	69 67 6e 6d 65 6e 74 	imul   $0x746e656d,0x6e(%rdi),%esp
+   875fc:	20 43 68             	and    %al,0x68(%rbx)
+   875ff:	65 63 6b 0d          	movslq %gs:0xd(%rbx),%ebp
+   87603:	0a 00                	or     (%rax),%al
+
+0000000000087605 <msg_int_18>:
+   87605:	fe                   	(bad)  
+   87606:	20 49 6e             	and    %cl,0x6e(%rcx)
+   87609:	74 65                	je     87670 <msg_int_32+0x13>
+   8760b:	72 72                	jb     8767f <msg_int_32+0x22>
+   8760d:	75 70                	jne    8767f <msg_int_32+0x22>
+   8760f:	74 20                	je     87631 <msg_int_19+0x8>
+   87611:	31 38                	xor    %edi,(%rax)
+   87613:	3a 20                	cmp    (%rax),%ah
+   87615:	23 4d 43             	and    0x43(%rbp),%ecx
+   87618:	20 4d 61             	and    %cl,0x61(%rbp)
+   8761b:	63 68 69             	movslq 0x69(%rax),%ebp
+   8761e:	6e                   	outsb  %ds:(%rsi),(%dx)
+   8761f:	65 20 43 68          	and    %al,%gs:0x68(%rbx)
+   87623:	65 63 6b 0d          	movslq %gs:0xd(%rbx),%ebp
+   87627:	0a 00                	or     (%rax),%al
+
+0000000000087629 <msg_int_19>:
+   87629:	fe                   	(bad)  
+   8762a:	20 49 6e             	and    %cl,0x6e(%rcx)
+   8762d:	74 65                	je     87694 <msg_int_pre+0x9>
+   8762f:	72 72                	jb     876a3 <msg_int_pre+0x18>
+   87631:	75 70                	jne    876a3 <msg_int_pre+0x18>
+   87633:	74 20                	je     87655 <msg_int_19+0x2c>
+   87635:	31 39                	xor    %edi,(%rcx)
+   87637:	3a 20                	cmp    (%rax),%ah
+   87639:	23 58 4d             	and    0x4d(%rax),%ebx
+   8763c:	20 53 49             	and    %dl,0x49(%rbx)
+   8763f:	4d                   	rex.WRB
+   87640:	44 20 46 6c          	and    %r8b,0x6c(%rsi)
+   87644:	6f                   	outsl  %ds:(%rsi),(%dx)
+   87645:	61                   	(bad)  
+   87646:	74 69                	je     876b1 <msg_int_post+0xd>
+   87648:	6e                   	outsb  %ds:(%rsi),(%dx)
+   87649:	67 2d 50 6f 69 6e    	addr32 sub $0x6e696f50,%eax
+   8764f:	74 20                	je     87671 <msg_int_32+0x14>
+   87651:	45 78 63             	rex.RB js     876b7 <msg_int_post+0x13>
+   87654:	65                   	gs
+   87655:	70 74                	jo     876cb <msg_int_post+0x27>
+   87657:	69 6f 6e 0d 0a 00 fe 	imul   $0xfe000a0d,0x6e(%rdi),%ebp
+
+000000000008765d <msg_int_32>:
+   8765d:	fe                   	(bad)  
+   8765e:	20 49 6e             	and    %cl,0x6e(%rcx)
+   87661:	74 65                	je     876c8 <msg_int_post+0x24>
+   87663:	72 72                	jb     876d7 <msg_int_post+0x33>
+   87665:	75 70                	jne    876d7 <msg_int_post+0x33>
+   87667:	74 20                	je     87689 <msg_error+0x9>
+   87669:	33 32                	xor    (%rdx),%esi
+   8766b:	3a 20                	cmp    (%rax),%ah
+   8766d:	20 20                	and    %ah,(%rax)
+   8766f:	20 20                	and    %ah,(%rax)
+   87671:	55                   	push   %rbp
+   87672:	73 65                	jae    876d9 <msg_int_post+0x35>
+   87674:	72 20                	jb     87696 <msg_int_pre+0xb>
+   87676:	64 65 66 69 6e 65 64 	imul   $0xd64,%fs:%gs:0x65(%rsi),%bp
+   8767d:	0d 
+   8767e:	0a 00                	or     (%rax),%al
+
+0000000000087680 <msg_error>:
+   87680:	fe                   	(bad)  
+   87681:	20 45 72             	and    %al,0x72(%rbp)
+   87684:	72 6f                	jb     876f5 <msg_int_post+0x51>
+   87686:	72 2e                	jb     876b6 <msg_int_post+0x12>
+   87688:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+000000000008768b <msg_int_pre>:
+   8768b:	fe                   	(bad)  
+   8768c:	20 41 73             	and    %al,0x73(%rcx)
+   8768f:	73 65                	jae    876f6 <msg_int_post+0x52>
+   87691:	72 74                	jb     87707 <msg_int_post+0x63>
+   87693:	69 6e 67 20 69 6e 74 	imul   $0x746e6920,0x67(%rsi),%ebp
+   8769a:	65                   	gs
+   8769b:	72 72                	jb     8770f <msg_int_post+0x6b>
+   8769d:	72 75                	jb     87714 <msg_int_post+0x70>
+   8769f:	70 74                	jo     87715 <msg_int_post+0x71>
+   876a1:	0d 0a 00 fe 20       	or     $0x20fe000a,%eax
+
+00000000000876a4 <msg_int_post>:
+   876a4:	fe                   	(bad)  
+   876a5:	20 41 66             	and    %al,0x66(%rcx)
+   876a8:	74 65                	je     8770f <msg_int_post+0x6b>
+   876aa:	72 20                	jb     876cc <msg_int_post+0x28>
+   876ac:	69                   	.byte 0x69
+   876ad:	6e                   	outsb  %ds:(%rsi),(%dx)
+   876ae:	74 0d                	je     876bd <msg_int_post+0x19>
+   876b0:	0a 00                	or     (%rax),%al

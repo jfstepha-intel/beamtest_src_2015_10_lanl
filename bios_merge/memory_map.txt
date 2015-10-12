@@ -1,0 +1,24 @@
+0xfff10000 - 0xfff15fff - Blank (was the GDT)
+0xfff16000 - 0xfff163ff - Setup_64bit_32  - Switches to 64 bit mode, but written in 32 bit, sets up interrupts
+0xfff16400 - 0xfff164ff - Setup_64bit_64 - First 64 bit code, Sets up MCAs
+0xfff16500 -              print_inter.s
+0xfff17000 -              lattice (entry point = 0xffe070bc)
+0xfff18000 -              md5sum 
+0xfff19000 -              sdcvirus 14ww24
+
+
+ 
+Data region
+0xfe080000 - 0xfe0fffff
+
+0xfe081000 - 0xfe081fff - Page table PML4 (only uses a small subset of this)
+0xfe082000 - 0xfe0821ff - Page table PDPE
+0xfe082200 - 0xfe0822   - Global descriptor table
+0xfe082230 - 0xfe082237 - Address of GDT
+0xfe082240 - 0xfe082247 - Address of IDT
+0xfe082300 - 0xfe082450 - Interrupt descriptor table
+0xfe083000 -            - SDC virus data
+0xfe0fe400 - 0xfe0fffff - Stack
+
+CPUIDs 00 - 0x36
+Each thread sp = 0xfe0ffff - CPUid << 4

@@ -1,0 +1,5 @@
+start = main;
+SECTIONS {
+    text    0x0e080000: {
+    }
+}

@@ -1,0 +1,7 @@
+*.l
+*.dis
+*._longdis
+*.long_dis
+*.o
+SDC_AVF_virus_14ww25_biosprint
+SDC_AVF_virus_14ww25_noprint
