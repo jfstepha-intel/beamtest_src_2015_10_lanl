@@ -5,7 +5,10 @@
 CC=icc
 BASE=nop
 
-all: $(BASE).dis $(BASE)_biosprint $(BASE)_noprint.dis $(BASE)_noprint.out $(BASE)_nolib.o
+all: $(BASE)_nolib.o
+
+# on my virtual machine, the std library causes a problem with make
+#all: $(BASE).dis $(BASE)_biosprint $(BASE)_noprint.dis $(BASE)_noprint.out $(BASE)_nolib.o
 
 $(BASE).dis: $(BASE).long_dis
 	sed '/.interp/,$$d' $(BASE).long_dis | sed 's/50 \tlea    0x50/00    lea    0x00/' > $(BASE).dis
@@ -40,3 +43,9 @@ clean:
 	rm -f nop*.o
 	rm -f nop_biosprint
 	rm -f nop*.out
+	rm -f nop*.l
+	rm -f nop.long_dis
+	rm -f *.txt
+	rm -f nop
+	rm -f nop_nolib
+
