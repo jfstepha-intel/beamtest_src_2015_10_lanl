@@ -10,3 +10,7 @@ $(BASE).o: $(BASE).s
 
 $(BASE).l: $(BASE).o 
 	ld $(BASE).o -Ttext=0x87100 -o $(BASE).l -emain 
+clean:
+	rm -r $(BASE).l
+	rm -r $(BASE).o
+	rm -r $(BASE).dis
