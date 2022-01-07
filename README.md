@@ -1,4 +1,4 @@
-#### do not use, this is the old version !!!!! ####
+1/7/22 - migrated again because I did it wrong the first time.
 
 Migrated from gitlab to github https://github.com/jfstepha-intel/beamtest_src_2015_10_lanl on 12/9/21
 
